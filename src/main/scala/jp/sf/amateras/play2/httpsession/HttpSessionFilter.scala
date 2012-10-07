@@ -9,7 +9,7 @@ import javax.servlet.annotation._
 /**
  * Puts HttpSession into SessionHolder#sessionMap.
  */
-@WebFilter(urlPatterns = Array("/*"))
+@WebFilter(urlPatterns = Array("/*"), asyncSupported = true)
 class HttpSessionFilter extends Filter {
 
   def init(config: FilterConfig): Unit = {}

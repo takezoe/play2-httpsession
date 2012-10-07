@@ -9,7 +9,7 @@ import javax.servlet.annotation._
  * Sets the request character encoding through ServletRequest#setCharacterEncoding().
  * By default, this filter set "UTF-8". You can also configure this encoding in web.xml.
  */
-@WebFilter(urlPatterns = Array("/*"))
+@WebFilter(urlPatterns = Array("/*"), asyncSupported = true)
 class CharacterEncodingFilter extends Filter {
 
   var encoding: String = null
