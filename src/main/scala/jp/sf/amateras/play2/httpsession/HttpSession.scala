@@ -15,6 +15,7 @@ case class HttpSession(private[httpsession] val operations: List[Any] = Nil) {
     if(HttpSessionHelpers.isLocalSession){
       HttpSessionHelpers.session.getAttribute(key) match {
         case null => None
+        // deserialize the session object from JSON in the development mode
         case json: String => Some(new Json{}.parse[T](json))
       }
     } else {

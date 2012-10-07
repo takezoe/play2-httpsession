@@ -33,6 +33,7 @@ object HttpSessionSupport {
       HttpSessionHelpers.session.invalidate()
       session.foreach { case (key, value) =>
         if(HttpSessionHelpers.isLocalSession){
+          // serializes the session object as JSON in the development mode
           HttpSessionHelpers.session.setAttribute(key, new Json{}.generate(value))
         } else {
           HttpSessionHelpers.session.setAttribute(key, value)
@@ -46,6 +47,7 @@ object HttpSessionSupport {
         case (key: String) => HttpSessionHelpers.session.removeAttribute(key)
         case (key: String, value: AnyRef) => {
           if(HttpSessionHelpers.isLocalSession){
+            // serializes the session object as JSON in the development mode
             HttpSessionHelpers.session.setAttribute(key, new Json{}.generate(value))
           } else {
             HttpSessionHelpers.session.setAttribute(key, value)
