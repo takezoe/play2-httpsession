@@ -11,9 +11,9 @@ import play.api.mvc._
  * import jp.sf.amateras.play2.httpsession.HttpSessionSupport._
  * 
  * def index = Action { implicit request =>
- *   val count = (HttpSession[Int]("counter") match {
+ *   val count = (HttpSession[String]("counter") match {
  *     case None    => 0
- *     case Some(i) => i
+ *     case Some(i) => i.toInt
  *   }) + 1
  *
  *   Ok("count=%d".format(count)).withHttpSession {
