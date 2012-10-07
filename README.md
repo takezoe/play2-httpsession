@@ -4,13 +4,14 @@ play2-httpsession
 HttpSession for Play2 applications on the servlet container.
 
 This provides how to access to HttpSession for Play2 applications which works on the servlet container 
-using (play2-war-plugin)[https://github.com/dlecan/play2-war-plugin].
+using [play2-war-plugin](https://github.com/dlecan/play2-war-plugin).
 
 At first, add the following dependency into your Build.scala:
 
 ```scala
-resolvers += "amateras-repo" at "http://amateras.sourceforge.jp/mvn/",
-libraryDependencies += "jp.sf.amateras.play2.httpsession" %% "play2-httpsession" % "1.0.0"
+resolvers += "amateras-repo" at "http://amateras.sourceforge.jp/mvn/"
+
+libraryDependencies += "jp.sf.amateras.play2.httpsession" %% "play2-httpsession" % "0.0.1"
 ```
 
 Import ```jp.sf.amateras.play2.httpsession.HttpSessionSupport._``` to access HttpSession.
