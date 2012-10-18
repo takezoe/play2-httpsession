@@ -68,7 +68,7 @@ Add the following configuration into that web.xml to enable play2-httpsession in
 
 Release Notes
 --------
-### 0.0.2 - Not released yet
+### 0.0.2 - 19 Oct 2012
 
 * Fixed bug on the war mode.
 
