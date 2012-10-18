@@ -40,7 +40,6 @@ Add the following configuration into that web.xml to enable play2-httpsession in
 <listener>
   <listener-class>jp.sf.amateras.play2.httpsession.HttpSessionListener</listener-class>
 </listener>
-  
 
 <filter>
   <filter-name>encoding</filter-name>
