@@ -33,7 +33,8 @@ def index = Action { implicit request =>
 }
 ```
 
-If you use play2-war-plugin as Servre 2.5 mode, Add the following configuration into your web.xml:
+In the Servre 2.5 mode, play2-war-plugin generates web.xml into PROJECT_HOME/war/WEB-INF/ at the initial ```play run``` execution.
+Add the following configuration into that web.xml to enable play2-httpsession in the Servlet 2.5 mode.
 
 ```xml
 <listener>
