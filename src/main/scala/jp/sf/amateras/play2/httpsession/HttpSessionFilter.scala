@@ -24,7 +24,7 @@ class HttpSessionFilter extends Filter {
           
           val wrappedRequest = new HttpServletRequestWrapper(httpRequest){
             override def getParameterMap(): java.util.Map[String, Array[String]] =
-              (super.getParameterMap().asScala ++ Map("HTTP_SESSION" -> Array("TRUE"))).asJava
+              (super.getParameterMap().asScala ++ Map("HTTP_SESSION" -> Array(session.getId))).asJava
           }
           chain.doFilter(wrappedRequest, response)
         } finally {

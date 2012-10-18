@@ -12,24 +12,24 @@ import javax.servlet.http.{HttpSession => ServletSession}
  */
 object HttpSessionHelpers {
   
-  private[httpsession] val sessionIds = new ThreadLocal[String]
-  
   private[httpsession] val sessionMap = new HashMap[String, ServletSession] with SynchronizedMap[String, ServletSession]
 
   private[httpsession] def setHttpSession(session: ServletSession) = {
-    sessionIds.set(session.getId())
     sessionMap.put(session.getId(), session)
   }
   
   private[httpsession] def removeHttpSession(session: ServletSession) = {
-    sessionIds.remove
     sessionMap.remove(session.getId())
   }
   
   /**
    * Returns the session id.
    */
-  private[httpsession] def sessionId: Option[String] = Option(sessionIds.get)
+  private[httpsession] def sessionId(implicit requestHeader: RequestHeader): Option[String] = 
+    requestHeader.queryString.get("HTTP_SESSION") match {
+      case None|Some(Nil) => None
+      case Some(Seq(sessionId)) => Some(sessionId)
+    }
   
   /**
    * Tests whether the current session is a local session.
