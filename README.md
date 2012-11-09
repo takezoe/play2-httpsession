@@ -68,6 +68,10 @@ Add the following configuration into that web.xml to enable play2-httpsession in
 
 Release Notes
 --------
+### 0.0.3 - 10 Nov 2012
+
+* Fix for play2-war-plugin 0.8.1.
+
 ### 0.0.2 - 19 Oct 2012
 
 * Fixed bug on the war mode.
