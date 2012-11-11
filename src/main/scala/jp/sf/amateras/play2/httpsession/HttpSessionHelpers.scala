@@ -35,7 +35,7 @@ object HttpSessionHelpers {
    * Tests whether the current session is a local session.
    */
   private[httpsession] def isLocalSession(implicit requestHeader: RequestHeader): Boolean =
-	requestHeader.cookies.get("JSESSIONID").isDefined
+	requestHeader.cookies.get("JSESSIONID").isEmpty
 
   /**
    * Returns the javax.servlet.http.HttpSession.
