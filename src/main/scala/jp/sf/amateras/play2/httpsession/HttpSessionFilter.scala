@@ -19,21 +19,9 @@ class HttpSessionFilter extends Filter {
     request match {
       case httpRequest: HttpServletRequest => {
         val session = httpRequest.getSession()
-        try {
-          HttpSessionHelpers.setHttpSession(session)
-          
-          val wrappedRequest = new HttpServletRequestWrapper(httpRequest){
-            override def getQueryString: String =
-              (super.getQueryString match {
-                case null|"" => "?"
-                case x       => x + "&"
-              }) + "HTTP_SESSION=" + session.getId
-          }
-          
-          chain.doFilter(wrappedRequest, response)
-        } finally {
-          HttpSessionHelpers.removeHttpSession(session)
-        }
+        HttpSessionHelpers.setHttpSession(session)
+        
+        chain.doFilter(request, response)
       }
     }
   }

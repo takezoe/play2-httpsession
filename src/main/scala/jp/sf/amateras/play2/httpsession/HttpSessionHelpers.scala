@@ -26,16 +26,16 @@ object HttpSessionHelpers {
    * Returns the session id.
    */
   private[httpsession] def sessionId(implicit requestHeader: RequestHeader): Option[String] = 
-    requestHeader.queryString.get("HTTP_SESSION") match {
-      case None|Some(Nil) => None
-      case Some(Seq(sessionId)) => Some(sessionId)
+    requestHeader.cookies.get("JSESSIONID") match {
+      case None    => None
+      case Some(x) => Some(x.value)
     }
   
   /**
    * Tests whether the current session is a local session.
    */
   private[httpsession] def isLocalSession(implicit requestHeader: RequestHeader): Boolean =
-	!requestHeader.queryString.contains("HTTP_SESSION")
+	requestHeader.cookies.get("JSESSIONID").isDefined
 
   /**
    * Returns the javax.servlet.http.HttpSession.
