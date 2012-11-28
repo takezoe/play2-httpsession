@@ -14,29 +14,22 @@ object HttpSessionHelpers {
   
   private[httpsession] val sessionMap = new HashMap[String, ServletSession] with SynchronizedMap[String, ServletSession]
 
-  private[httpsession] def setHttpSession(session: ServletSession) = {
-    sessionMap.put(session.getId(), session)
-  }
+  private[httpsession] def setHttpSession(session: ServletSession) = sessionMap.put(session.getId(), session)
   
-  private[httpsession] def removeHttpSession(session: ServletSession) = {
-    sessionMap.remove(session.getId())
-  }
+  private[httpsession] def removeHttpSession(session: ServletSession) = sessionMap.remove(session.getId())
   
   /**
    * Returns the session id.
    */
   private[httpsession] def sessionId(implicit requestHeader: RequestHeader): Option[String] = 
-    requestHeader.cookies.get("JSESSIONID") match {
-      case None    => None
-      case Some(x) => Some(x.value)
-    }
+    requestHeader.headers.get("X-SESSION-ID")
   
   /**
    * Tests whether the current session is a local session.
    */
-  private[httpsession] def isLocalSession(implicit requestHeader: RequestHeader): Boolean =
-	requestHeader.cookies.get("JSESSIONID").isEmpty
-
+  private[httpsession] def isLocalSession(implicit requestHeader: RequestHeader): Boolean = 
+    requestHeader.headers.get("X-SESSION-ID").isEmpty
+    
   /**
    * Returns the javax.servlet.http.HttpSession.
    */

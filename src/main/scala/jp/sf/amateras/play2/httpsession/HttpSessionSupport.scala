@@ -1,5 +1,6 @@
 package jp.sf.amateras.play2.httpsession
 
+import scala.collection.JavaConverters._
 import com.codahale.jerkson.Json
 import play.api.mvc._
 
@@ -30,13 +31,16 @@ object HttpSessionSupport {
 
   class ResultWrapper(val result: Result) {
     def withHttpSession(session: (String, AnyRef)*)(implicit requestHeader: RequestHeader): Result = {
-      HttpSessionHelpers.session.invalidate()
+      val httpSession = HttpSessionHelpers.session
+      httpSession.getAttributeNames.asScala.foreach { name =>
+        httpSession.removeAttribute(name)
+      }
       session.foreach { case (key, value) =>
         if(HttpSessionHelpers.isLocalSession){
           // serializes the session object as JSON in the development mode
-          HttpSessionHelpers.session.setAttribute(key, new Json{}.generate(value))
+          httpSession.setAttribute(key, new Json{}.generate(value))
         } else {
-          HttpSessionHelpers.session.setAttribute(key, value)
+          httpSession.setAttribute(key, value)
         }
       }
       result

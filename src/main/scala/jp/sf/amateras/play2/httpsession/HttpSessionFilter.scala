@@ -21,9 +21,39 @@ class HttpSessionFilter extends Filter {
         val session = httpRequest.getSession()
         HttpSessionHelpers.setHttpSession(session)
         
-        chain.doFilter(request, response)
+        val wrappedRequest = new HttpServletRequestWrapper(httpRequest){
+          override def getHeader(name: String): String = {
+            name match {
+              case "X-SESSION-ID" => session.getId
+              case _ => super.getHeader(name)
+            }
+          }
+          
+          override def getHeaders(name: String): java.util.Enumeration[String] = {
+            name match {
+              case "X-SESSION-ID" => new Enumeration(Seq(session.getId))
+              case _ => super.getHeaders(name)
+            }
+          }
+          
+          override def getHeaderNames(): java.util.Enumeration[String] =
+            new Enumeration(httpRequest.getHeaderNames.asScala.toSeq :+ "X-SESSION-ID")
+        }
+        
+        chain.doFilter(wrappedRequest, response)
       }
     }
   }
 
+}
+
+class Enumeration(values: Seq[String]) extends java.util.Enumeration[String] {
+  var index = -1
+  
+  def hasMoreElements(): Boolean = index < values.length - 1
+              
+  def nextElement(): String = {
+    index = index + 1
+    values(index)
+  }
 }
