@@ -11,7 +11,7 @@ At first, add the following dependency into your Build.scala:
 ```scala
 resolvers += "amateras-repo" at "http://amateras.sourceforge.jp/mvn/"
 
-libraryDependencies += "jp.sf.amateras.play2.httpsession" %% "play2-httpsession" % "0.0.3"
+libraryDependencies += "jp.sf.amateras.play2.httpsession" %% "play2-httpsession" % "0.0.4"
 ```
 
 Import ```jp.sf.amateras.play2.httpsession.HttpSessionSupport._``` to access HttpSession.
@@ -68,6 +68,11 @@ Add the following configuration into that web.xml to enable play2-httpsession in
 
 Release Notes
 --------
+### 0.0.4 - 29 Nov 2012
+
+* Use request header instead of cookie to pass the session id.
+* When session is cleared, remove all session attributes instead of HttpSession#invalidate().
+
 ### 0.0.3 - 10 Nov 2012
 
 * Fix for play2-war-plugin 0.8.1.
