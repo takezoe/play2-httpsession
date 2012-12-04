@@ -48,16 +48,15 @@ object HttpSessionHelpers {
           def getMaxInactiveInterval(): Int = throw new UnsupportedOperationException
           def getSessionContext(): HttpSessionContext = throw new UnsupportedOperationException
           def getValue(s: String): Object = throw new UnsupportedOperationException
-          def getAttributeNames(): java.util.Enumeration[String] = throw new UnsupportedOperationException
+          def getAttributeNames(): java.util.Enumeration[String] = new Enumeration(attributes.keySet.toSeq)
           def getValueNames(): Array[String] = throw new UnsupportedOperationException
           def putValue(s: String, obj: Object): Unit = throw new UnsupportedOperationException
           def removeValue(s: String): Unit = throw new UnsupportedOperationException
           def isNew(): Boolean = throw new UnsupportedOperationException
-
           def getAttribute(s: String): Object = attributes.get(s).orNull
           def setAttribute(s: String, obj: Object): Unit = attributes.put(s, obj)
           def removeAttribute(s: String): Unit = attributes.remove(s)
-          def invalidate(): Unit = sessionMap.remove("LOCAL_SESSION")
+          def invalidate(): Unit = throw new UnsupportedOperationException
         }
       )
     }

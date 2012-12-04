@@ -46,14 +46,3 @@ class HttpSessionFilter extends Filter {
   }
 
 }
-
-class Enumeration(values: Seq[String]) extends java.util.Enumeration[String] {
-  var index = -1
-  
-  def hasMoreElements(): Boolean = index < values.length - 1
-              
-  def nextElement(): String = {
-    index = index + 1
-    values(index)
-  }
-}
