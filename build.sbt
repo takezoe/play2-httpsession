@@ -2,7 +2,7 @@ name := "play2-httpsession"
 
 organization := "jp.sf.amateras.play2.httpsession"
 
-version := "0.0.5"
+version := "0.0.6"
 
 scalaVersion := "2.9.1"
 

@@ -68,6 +68,10 @@ Add the following configuration into that web.xml to enable play2-httpsession in
 
 Release Notes
 --------
+### 0.0.6 - In the development
+
+* Cache per request for the development mode performance.
+
 ### 0.0.5 - 05 Dec 2012
 
 * Fixed error by session clearing in the development mode.
