@@ -101,11 +101,16 @@ object HttpSessionSupport {
       if(HttpSessionHelpers.isLocalSession){
         HttpSessionHelpers.session.getAttribute(key) match {
           case null => None
-          case json: String => cacheMap.get(key) match {
+          case json: String => cacheMap.map(_.get(key)).getOrElse(None) match {
             // returns from cache
             case Some(value) => Some(value.asInstanceOf[T])
             // deserialize the session object from JSON
-            case None => Some(new Json{}.parse[T](json))
+            case None => {
+              val value = Some(new Json{}.parse[T](json))
+              // puts value into cache if session cache is available
+              cacheMap.foreach(_.put(key, value))
+              value
+            }
           }
         }
       } else {
