@@ -125,7 +125,7 @@ object HttpSessionSupport {
             case None => {
               val value = Some(new Json{}.parse[T](json))
               // puts value into cache if session cache is available
-              cacheMap.foreach(_.put(key, value))
+              cacheMap.foreach(_.put(key, value.get.asInstanceOf[Object]))
               value
             }
           }
