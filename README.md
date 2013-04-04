@@ -11,7 +11,7 @@ At first, add the following dependency into your Build.scala:
 ```scala
 resolvers += "amateras-repo" at "http://amateras.sourceforge.jp/mvn/"
 
-libraryDependencies += "jp.sf.amateras.play2.httpsession" %% "play2-httpsession" % "0.0.5"
+libraryDependencies += "jp.sf.amateras.play2.httpsession" %% "play2-httpsession" % "0.0.6"
 ```
 
 Import ```jp.sf.amateras.play2.httpsession.HttpSessionSupport._``` to access HttpSession.
