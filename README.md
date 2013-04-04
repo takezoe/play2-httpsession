@@ -19,16 +19,18 @@ Import ```jp.sf.amateras.play2.httpsession.HttpSessionSupport._``` to access Htt
 ```scala
 import jp.sf.amateras.play2.httpsession.HttpSessionSupport._
  
-def index = Action { implicit request =>
-  // retrieve the object from HttpSession
-  val count = (HttpSession[String]("counter") match {
-    case None    => 0
-    case Some(i) => i.toInt
-  }) + 1
+def index = HttpSessionAction {
+  Action { implicit request =>
+    // retrieve the object from HttpSession
+    val count = (HttpSession[String]("counter") match {
+      case None    => 0
+      case Some(i) => i.toInt
+    }) + 1
 
-  Ok("count=%d".format(count)).withHttpSession {
-    // store objects into HttpSession
-    "counter" -> count.toString
+    Ok("count=%d".format(count)).withHttpSession {
+      // store objects into HttpSession
+      "counter" -> count.toString
+    }
   }
 }
 ```
@@ -68,9 +70,9 @@ Add the following configuration into that web.xml to enable play2-httpsession in
 
 Release Notes
 --------
-### 0.0.6 - In the development
+### 0.0.6 - 05 Apr 2013
 
-* Cache per request for the development mode performance.
+* Deserialization Cache per request for the development mode performance.
 
 ### 0.0.5 - 05 Dec 2012
 
