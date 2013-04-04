@@ -70,25 +70,42 @@ object HttpSessionSupport {
   private var cacheMap: Option[scala.collection.mutable.Map[String, Object]] = None
   
   /**
-   * Starts the session cache in the development mode.
-   * Do nothing in the production mode.
+   * Wraps your Action which uses HttpSession by this case class.
+   * 
+   * play2-httpsession has performance issue caused by deserialization 
+   * of values stored to the session in the development mode.
+   * This case class provides cache for the session values per request 
+   * to solve this issue.
+   * 
+   * {{{
+   * def index = HttpSessionAction {
+   *   Action { implicit request =>
+   *     // ... access to session values ...
+   *     Ok("Hello, World!")
+   *   }
+   * }
+   * }}}
    */
-  def startSessionCache(implicit requestHeader: RequestHeader): Unit = {
-    if(HttpSessionHelpers.isLocalSession){
-      cacheMap = Some(scala.collection.mutable.Map())
-    }
-  }
+  case class HttpSessionAction[A](action: Action[A]) extends Action[A] {
   
-  /**
-   * Ends the session cache in the development mode.
-   * Do nothing in the production mode.
-   */
-  def endSessionCache(implicit requestHeader: RequestHeader): Unit = {
-    if(HttpSessionHelpers.isLocalSession){
-      cacheMap = None
+    def apply(request: Request[A]): Result = {
+      // start cache per request in development mode
+      if(HttpSessionHelpers.isLocalSession(request)){
+        cacheMap = Some(scala.collection.mutable.Map())
+      }
+      try {
+        action(request)
+      } finally {
+        // clear session cache per request
+        if(HttpSessionHelpers.isLocalSession(request)){
+          cacheMap = None
+        }
+      }
     }
-  }
-  
+    
+    lazy val parser = action.parser
+  }  
+    
   /**
    * Provides an interface to access javax.servlet.http.HttpSession.
    */
