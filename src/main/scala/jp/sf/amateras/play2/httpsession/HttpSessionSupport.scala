@@ -89,7 +89,7 @@ object HttpSessionSupport {
     }
   } 
   
-  def withSessionCache[A](requestHeader: RequestHeader, f: => A): A = {
+  def withSessionCache[A](requestHeader: RequestHeader)(f: => A): A = {
     startSessionCache(requestHeader)
     try {
       f
