@@ -19,18 +19,16 @@ Import ```jp.sf.amateras.play2.httpsession.HttpSessionSupport._``` to access Htt
 ```scala
 import jp.sf.amateras.play2.httpsession.HttpSessionSupport._
  
-def index = HttpSessionAction {
-  Action { implicit request =>
-    // retrieve the object from HttpSession
-    val count = (HttpSession[String]("counter") match {
-      case None    => 0
-      case Some(i) => i.toInt
-    }) + 1
+def index = Action { implicit request =>
+  // retrieve the object from HttpSession
+  val count = (HttpSession[String]("counter") match {
+    case None    => 0
+    case Some(i) => i.toInt
+  }) + 1
 
-    Ok("count=%d".format(count)).withHttpSession {
-      // store objects into HttpSession
-      "counter" -> count.toString
-    }
+  Ok("count=%d".format(count)).withHttpSession {
+    // store objects into HttpSession
+    "counter" -> count.toString
   }
 }
 ```
